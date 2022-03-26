@@ -11,6 +11,7 @@
 #include <LibCore/File.h>
 #include <LibCore/System.h>
 #include <LibMain/Main.h>
+#include <pwd.h>
 #include <signal.h>
 #include <stdio.h>
 #include <string.h>
@@ -49,6 +50,7 @@ ErrorOr<int> serenity_main(Main::Arguments arguments)
     bool attempt_interactive = false;
 
     auto initialize = [&] {
+        setenv("HOME", getpwuid(getuid())->pw_dir, true);
         editor = Line::Editor::construct();
         editor->initialize();
 
